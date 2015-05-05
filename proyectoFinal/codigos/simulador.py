@@ -18,8 +18,8 @@ class Simulador:
 		self.columnas = dim_x
 		self.orientacion = 'N'
 		self.simbolos = (str(pscn), str(obst), str(agnt), str(mta))
-		self.agente_xy = [0, 0]
-		self.meta_xy = [0, 0]
+		self.axy = [0, 0]
+		self.mxy = [0, 0]
 		self.mapa = []
 		for i in range(self.filas):
 			fila = []
@@ -34,11 +34,11 @@ class Simulador:
 			a_x, a_y = random.randint(0,self.filas-1), random.randint(0,self.columnas-1)
 			m_x, m_y = random.randint(0,self.filas-1), random.randint(0,self.columnas-1)
 			if a_x!=m_x and a_y!= m_y:
-				self.agente_xy[0], self.agente_xy[1] = a_x, a_y
-				self.meta_xy[0], self.meta_xy[1] = m_x, m_y
+				self.axy[0], self.axy[1] = a_x, a_y
+				self.mxy[0], self.mxy[1] = m_x, m_y
 				break
-		self.mapa[self.agente_xy[0]][self.agente_xy[1]] = self.simbolos[2]
-		self.mapa[self.meta_xy[0]][self.meta_xy[1]] = self.simbolos[3]
+		self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[2]
+		self.mapa[self.mxy[0]][self.mxy[1]] = self.simbolos[3]
 		cntdr = 0
 		while cntdr < obts:
 			x, y = random.randint(0,self.filas-1), random.randint(0,self.columnas-1)
@@ -46,108 +46,88 @@ class Simulador:
 				self.mapa[x][y] = self.simbolos[1]
 				cntdr += 1
 
-	def movimientos_posibles(self):
-		""" Documentacion para la funcion <movimientos_posibles>. """
-		movimientos = [None, None, None, None]
-		orientacion = ''
-		xy = self.agente_xy
-		if self.orientacion == 'N':
-			xyn = [xy[0]-1, xy[1]]
-			if 0<=xyn[0]<self.filas and 0<=xyn[1]<self.columnas and self.mapa[xyn[0]][xyn[1]]!=self.simbolos[1]:
-				movimientos[0] = xyn
-			xyn = [xy[0], xy[1]+1]
-			if 0<=xyn[0]<self.filas and 0<=xyn[1]<self.columnas and self.mapa[xyn[0]][xyn[1]]!=self.simbolos[1]:
-				movimientos[1] = xyn
-				if not movimientos[0]:
-					orientacion = 'E'
-			xyn = [xy[0], xy[1]-1]
-			if 0<=xyn[0]<self.filas and 0<=xyn[1]<self.columnas and self.mapa[xyn[0]][xyn[1]]!=self.simbolos[1]:
-				movimientos[2] = xyn
-				if not movimientos[0]:
-					orientacion = 'O'
-			xyn = [xy[0]+1, xy[1]]
-			if 0<=xyn[0]<self.filas and 0<=xyn[1]<self.columnas and self.mapa[xyn[0]][xyn[1]]!=self.simbolos[1]:
-				movimientos[3] = xyn
-				if not movimientos[0]:
-					orientacion = 'S'
-		elif self.orientacion == 'E':
-			xyn = [xy[0], xy[1]+1]
-			if 0<=xyn[0]<self.filas and 0<=xyn[1]<self.columnas and self.mapa[xyn[0]][xyn[1]]!=self.simbolos[1]:
-				movimientos[0] = xyn
-			xyn = [xy[0]+1, xy[1]]
-			if 0<=xyn[0]<self.filas and 0<=xyn[1]<self.columnas and self.mapa[xyn[0]][xyn[1]]!=self.simbolos[1]:
-				movimientos[1] = xyn
-				if not movimientos[0]:
-					orientacion = 'S'
-			xyn = [xy[0]-1, xy[1]]
-			if 0<=xyn[0]<self.filas and 0<=xyn[1]<self.columnas and self.mapa[xyn[0]][xyn[1]]!=self.simbolos[1]:
-				movimientos[2] = xyn
-				if not movimientos[0]:
-					orientacion = 'N'
-			xyn = [xy[0], xy[1]-1]
-			if 0<=xyn[0]<self.filas and 0<=xyn[1]<self.columnas and self.mapa[xyn[0]][xyn[1]]!=self.simbolos[1]:
-				movimientos[3] = xyn
-				if not movimientos[0]:
-					orientacion = 'O'
-		elif self.orientacion == 'O':
-			xyn = [xy[0], xy[1]-1]
-			if 0<=xyn[0]<self.filas and 0<=xyn[1]<self.columnas and self.mapa[xyn[0]][xyn[1]]!=self.simbolos[1]:
-				movimientos[0] = xyn
-			xyn = [xy[0]-1, xy[1]]
-			if 0<=xyn[0]<self.filas and 0<=xyn[1]<self.columnas and self.mapa[xyn[0]][xyn[1]]!=self.simbolos[1]:
-				movimientos[1] = xyn
-				if not movimientos[0]:
-					orientacion = 'N'
-			xyn = [xy[0]+1, xy[1]]
-			if 0<=xyn[0]<self.filas and 0<=xyn[1]<self.columnas and self.mapa[xyn[0]][xyn[1]]!=self.simbolos[1]:
-				movimientos[2] = xyn
-				if not movimientos[0]:
-					orientacion = 'S'
-			xyn = [xy[0], xy[1]+1]
-			if 0<=xyn[0]<self.filas and 0<=xyn[1]<self.columnas and self.mapa[xyn[0]][xyn[1]]!=self.simbolos[1]:
-				movimientos[3] = xyn
-				if not movimientos[0]:
-					orientacion = 'E'
-		elif self.orientacion == 'S':
-			xyn = [xy[0]+1, xy[1]]
-			if 0<=xyn[0]<self.filas and 0<=xyn[1]<self.columnas and self.mapa[xyn[0]][xyn[1]]!=self.simbolos[1]:
-				movimientos[0] = xyn
-			xyn = [xy[0], xy[1]-1]
-			if 0<=xyn[0]<self.filas and 0<=xyn[1]<self.columnas and self.mapa[xyn[0]][xyn[1]]!=self.simbolos[1]:
-				movimientos[1] = xyn
-				if not movimientos[0]:
-					orientacion = 'O'
-			xyn = [xy[0], xy[1]+1]
-			if 0<=xyn[0]<self.filas and 0<=xyn[1]<self.columnas and self.mapa[xyn[0]][xyn[1]]!=self.simbolos[1]:
-				movimientos[2] = xyn
-				if not movimientos[0]:
-					orientacion = 'E'
-			xyn = [xy[0]-1, xy[1]]
-			if 0<=xyn[0]<self.filas and 0<=xyn[1]<self.columnas and self.mapa[xyn[0]][xyn[1]]!=self.simbolos[1]:
-				movimientos[3] = xyn
-				if not movimientos[0]:
-					orientacion = 'N'
-		self.orientacion = orientacion
-		return movimientos
-
-	def movimiento(self, movimientos):
+	def movimiento(self):
 		""" Documentacion para la funcion <movimiento>. """
-		anterior = self.agente_xy
-		if movimientos[0]:
-			self.agente_xy = movimientos[0]
-		elif movimientos[1]:
-			self.agente_xy = movimientos[1]
-		elif movimientos[2]:
-			self.agente_xy = movimientos[2]
-		elif movimientos[3]:
-			self.agente_xy = movimientos[3]
-		if self.agente_xy == self.meta_xy:
-			return False
-		else:
-			self.mapa[self.agente_xy[0]][self.agente_xy[1]] = self.simbolos[2]
-			self.mapa[anterior[0]][anterior[1]] = self.simbolos[0]
-			print "Re-Dibuja agente...", self.agente_xy
-			return True
+		if self.orientacion == 'N':
+			if 0<=self.axy[0]-1<self.filas and 0<=self.axy[1]<self.columnas and self.mapa[self.axy[0]-1][self.axy[1]]!=self.simbolos[1]:
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[0]
+				self.axy[0] = self.axy[0]-1
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[2]
+			elif 0<=self.axy[0]<self.filas and 0<=self.axy[1]+1<self.columnas and self.mapa[self.axy[0]][self.axy[1]+1]!=self.simbolos[1]:
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[0]
+				self.axy[1] = self.axy[1]+1
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[2]
+				self.orientacion = 'E'
+			elif 0<=self.axy[0]<self.filas and 0<=self.axy[1]-1<self.columnas and self.mapa[self.axy[0]][self.axy[1]-1]!=self.simbolos[1]:
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[0]
+				self.axy[1] = self.axy[1]-1
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[2]
+				self.orientacion = 'O'
+			elif 0<=self.axy[0]+1<self.filas and 0<=self.axy[1]<self.columnas and self.mapa[self.axy[0]+1][self.axy[1]]!=self.simbolos[1]:
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[0]
+				self.axy[0] = self.axy[0]+1
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[2]
+				self.orientacion = 'S'
+		elif self.orientacion == 'E':
+			if 0<=self.axy[0]<self.filas and 0<=self.axy[1]+1<self.columnas and self.mapa[self.axy[0]][self.axy[1]+1]!=self.simbolos[1]:
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[0]
+				self.axy[1] = self.axy[1]+1
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[2]
+			elif 0<=self.axy[0]+1<self.filas and 0<=self.axy[1]<self.columnas and self.mapa[self.axy[0]+1][self.axy[1]]!=self.simbolos[1]:
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[0]
+				self.axy[0] = self.axy[0]+1
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[2]
+				self.orientacion = 'S'
+			elif 0<=self.axy[0]-1<self.filas and 0<=self.axy[1]<self.columnas and self.mapa[self.axy[0]-1][self.axy[1]]!=self.simbolos[1]:
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[0]
+				self.axy[0] = self.axy[0]-1
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[2]
+				self.orientacion = 'N'
+			elif 0<=self.axy[0]<self.filas and 0<=self.axy[1]-1<self.columnas and self.mapa[self.axy[0]][self.axy[1]-1]!=self.simbolos[1]:
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[0]
+				self.axy[1] = self.axy[1]-1
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[2]
+				self.orientacion = 'O'
+		elif self.orientacion == 'O':
+			if 0<=self.axy[0]<self.filas and 0<=self.axy[1]-1<self.columnas and self.mapa[self.axy[0]][self.axy[1]-1]!=self.simbolos[1]:
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[0]
+				self.axy[1] = self.axy[1]-1
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[2]
+			elif 0<=self.axy[0]-1<self.filas and 0<=self.axy[1]<self.columnas and self.mapa[self.axy[0]-1][self.axy[1]]!=self.simbolos[1]:
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[0]
+				self.axy[0] = self.axy[0]-1
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[2]
+				self.orientacion = 'N'
+			elif 0<=self.axy[0]+1<self.filas and 0<=self.axy[1]<self.columnas and self.mapa[self.axy[0]+1][self.axy[1]]!=self.simbolos[1]:
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[0]
+				self.axy[0] = self.axy[0]+1
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[2]
+				self.orientacion = 'S'
+			elif 0<=self.axy[0]<self.filas and 0<=self.axy[1]+1<self.columnas and self.mapa[self.axy[0]][self.axy[1]+1]!=self.simbolos[1]:
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[0]
+				self.axy[1] = self.axy[1]+1
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[2]
+				self.orientacion = 'E'
+		elif self.orientacion == 'S':
+			if 0<=self.axy[0]+1<self.filas and 0<=self.axy[1]<self.columnas and self.mapa[self.axy[0]+1][self.axy[1]]!=self.simbolos[1]:
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[0]
+				self.axy[0] = self.axy[0]+1
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[2]
+			elif 0<=self.axy[0]<self.filas and 0<=self.axy[1]-1<self.columnas and self.mapa[self.axy[0]][self.axy[1]-1]!=self.simbolos[1]:
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[0]
+				self.axy[1] = self.axy[1]-1
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[2]
+				self.orientacion = 'O'
+			elif 0<=self.axy[0]<self.filas and 0<=self.axy[1]+1<self.columnas and self.mapa[self.axy[0]][self.axy[1]+1]!=self.simbolos[1]:
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[0]
+				self.axy[1] = self.axy[1]+1
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[2]
+				self.orientacion = 'E'
+			elif 0<=self.axy[0]-1<self.filas and 0<=self.axy[1]<self.columnas and self.mapa[self.axy[0]-1][self.axy[1]]!=self.simbolos[1]:
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[0]
+				self.axy[0] = self.axy[0]-1
+				self.mapa[self.axy[0]][self.axy[1]] = self.simbolos[2]
+				self.orientacion = 'N'
 
 	def mostrar_mapa(self):
 		""" Documentacion para la funcion <mostrar_mapa>. """
@@ -158,19 +138,16 @@ class Simulador:
 
 
 if __name__ == '__main__':
-	simulador = Simulador(25,20," ",".")
+	simulador = Simulador(8,8," ",".")
 	simulador.poblar_mapa()
 	contador = 0
-	while contador < 7:
-		#os.system('clear')
-		#print "=" * 80
-		#simulador.mostrar_mapa()
-		#print "Agente: ", simulador.agente_xy
-		#print "=" * 80
-		time.sleep(1)
-		if simulador.movimiento(simulador.movimientos_posibles()):
-			contador += 1
-			continue
-		else:
+	#while contador < 15:
+	while True:
+		os.system('clear')
+		simulador.mostrar_mapa()
+		simulador.movimiento()
+		if simulador.axy == simulador.mxy:
 			print "Meta alcanzada"
 			break
+		time.sleep(1)
+		contador += 1
