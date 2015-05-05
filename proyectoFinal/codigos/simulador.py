@@ -12,69 +12,65 @@ import os
 
 class Simulador:
 	""" Documentacion de la clase <Simulador>. """
-	def __init__(self, dim_x=8, dim_y=8, pscn=".", obst="O", agnt="X"):
+	def __init__(self, dim_x=8, dim_y=8, pscn=".", obst="O", agnt="X", mta="M"):
 		""" (Pseudo)Constructor de la clase <Simulador>. """
-		self.filas = dim_y
-		self.columnas = dim_x
-		self.posicion = str(pscn)
-		self.obstaculo = str(obst)
-		self.agente = str(agnt)
+		self.fs = dim_y
+		self.cs = dim_x
+		self.orientacion = "N"
+		self.simbolos = (str(pscn), str(obst), str(agnt), str(mta))
+		self.agente_xy = [0, 0]
+		self.meta_xy = [0, 0]
 		self.mapa = []
-		for i in range(self.filas):
+		for i in range(self.fs):
 			fila = []
-			fila = [self.posicion]* self.columnas
+			fila = [self.simbolos[0]] * self.cs
 			self.mapa.append(fila)
 
 	def poblar_mapa(self, obts=0):
 		""" Documentacion para la funcion <poblar_mapa>. """
-		if obts==0 or obts<((self.filas*self.columnas)//3) or obts>(((self.filas*self.columnas)//3)*2):
-			obts = (self.filas * self.columnas)//3
-		self.mapa[random.randint(0,self.filas-1)][random.randint(0,self.columnas-1)] = self.agente
+		if obts==0 or obts<((self.fs*self.cs)//3) or obts>(((self.fs*self.cs)//3)*2):
+			obts = (self.fs * self.cs)//3
+		while True:
+			a_x, a_y = random.randint(0,self.fs-1), random.randint(0,self.cs-1)
+			m_x, m_y = random.randint(0,self.fs-1), random.randint(0,self.cs-1)
+			if a_x!=m_x and a_y!= m_y:
+				self.agente_xy[0], self.agente_xy[1] = a_x, a_y
+				self.meta_xy[0], self.meta_xy[1] = m_x, m_y
+				break
+		self.mapa[self.agente_xy[0]][self.agente_xy[1]] = self.simbolos[2]
+		self.mapa[self.meta_xy[0]][self.meta_xy[1]] = self.simbolos[3]
+		cntdr = 0
+		while cntdr < obts:
+			x, y = random.randint(0,self.fs-1), random.randint(0,self.cs-1)
+			if self.mapa[x][y] == self.simbolos[0]:
+				self.mapa[x][y] = self.simbolos[1]
+				cntdr += 1
 
-	def imprime_mapa(self):
-		""" Documentacion para la funcion <imprime_mapa>. """
-		for i in range(self.filas):
-			for j in range(self.columnas):
+	def movimientos_posibles(self):
+		""" Documentacion para la funcion <movimientos_posibles>. """
+		movimientos = [None, None, None]
+		if self.orientacion == 'N':
+			pass
+		elif self.orientacion == 'E':
+			pass
+		elif self.orientacion == 'O':
+			pass
+		elif self.orientacion == 's':
+			pass
+		return movimientos
+
+	def mostrar_mapa(self):
+		""" Documentacion para la funcion <mostrar_mapa>. """
+		for i in range(self.fs):
+			for j in range(self.cs):
 				print self.mapa[i][j] + " ",
 			print
 
 
-simulador = Simulador()
-simulador.imprime_mapa()
-simulador.poblar_mapa()
-print
-simulador.imprime_mapa()
-print
-
-pnt = "."
-rbt = "R"
-obst = "O"
-
-
-tablero = []
-for i in range(8):
-	fila = []
-	for j in range(8):
-		fila = [pnt] * 8
-	tablero.append(fila)
-
-obsts = []
-i = 0
-while i < random.randint(15, 20):
-	pass
-	bndr = True
-	obs = [random.randint(0,7), random.randint(0,7)]
-	for j in range(len(obsts)):
-		if obs == obsts[j]:
-			bndr = False
-			break
-	if bndr:
-		obsts.append(obs)
-		i += 1
-	else:
-		i -= 1
-
-for i in range(len(obsts)):
-	tablero[obsts[i][0]][obsts[i][1]] = obst
-
-tablero[random.randint(0,7)][random.randint(0,7)] = rbt
+if __name__ == '__main__':
+	simulador = Simulador()
+	simulador.mostrar_mapa()
+	simulador.poblar_mapa()
+	print
+	simulador.mostrar_mapa()
+	print
