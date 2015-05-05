@@ -1,8 +1,5 @@
 """
-Modulo para simular el movimiento_autonomo de un robot en un mapa rectangular
-poblado arbitrariamente con n obstaculos en el mapa, en lugares donde
-el robot no puede posicionarse. Los movimientos son unicamente 
-verticales y horizontales(adelante, atras, izquierda, derecha).
+Version 2 del simulador.
 """
 
 import random
