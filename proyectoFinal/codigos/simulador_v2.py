@@ -102,29 +102,21 @@ class Simulador:
 		axy = self.axy
 		f, c = self.filas, self.columnas
 		mapa = self.mapa
-		if (0 <= axy[0]-1 < f) and (0 <= axy[1] < c) and \
-		(mapa[axy[0]-1][axy[1]] != self.simbolos[1]):	# N
+		if (0 <= axy[0]-1 < f) and (0 <= axy[1] < c) and (mapa[axy[0]-1][axy[1]] != self.simbolos[1]):	# N
 			movimientos[0] = [axy[0]-1, axy[1]]
-		if (0 <= axy[0]-1 < f) and (0 <= axy[1]+1 < c) and \
-		(mapa[axy[0]-1][axy[1]+1] != self.simbolos[1]):	# NE
+		if (0 <= axy[0]-1 < f) and (0 <= axy[1]+1 < c) and (mapa[axy[0]-1][axy[1]+1] != self.simbolos[1]):	# NE
 			movimientos[1] = [axy[0]-1, axy[1]+1]
-		if (0 <= axy[0] < f) and (0 <= axy[1]+1 < c) and \
-		(mapa[axy[0]][axy[1]+1] != self.simbolos[1]):	# E
+		if (0 <= axy[0] < f) and (0 <= axy[1]+1 < c) and (mapa[axy[0]][axy[1]+1] != self.simbolos[1]):	# E
 			movimientos[2] = [axy[0], axy[1]+1]
-		if (0 <= axy[0]+1 < f) and (0 <= axy[1]+1 < c) and \
-		(mapa[axy[0]+1][axy[1]+1] != self.simbolos[1]):	# SE
+		if (0 <= axy[0]+1 < f) and (0 <= axy[1]+1 < c) and (mapa[axy[0]+1][axy[1]+1] != self.simbolos[1]):	# SE
 			movimientos[3] = [axy[0]+1, axy[1]+1]
-		if (0 <= axy[0]+1 < f) and (0 <= axy[1] < c) and \
-		(mapa[axy[0]+1][axy[1]] != self.simbolos[1]):	# S
+		if (0 <= axy[0]+1 < f) and (0 <= axy[1] < c) and (mapa[axy[0]+1][axy[1]] != self.simbolos[1]):	# S
 			movimientos[4] = [axy[0]+1, axy[1]]
-		if (0 <= axy[0]+1 < f) and (0 <= axy[1]-1 < c) and \
-		(mapa[axy[0]-1][axy[1]-1] != self.simbolos[1]):	# SO
+		if (0 <= axy[0]+1 < f) and (0 <= axy[1]-1 < c) and (mapa[axy[0]+1][axy[1]-1] != self.simbolos[1]):	# SO
 			movimientos[5] = [axy[0]+1, axy[1]-1]
-		if (0 <= axy[0] < f) and (0 <= axy[1]-1 < c) and \
-		(mapa[axy[0]][axy[1]-1] != self.simbolos[1]):	# O
+		if (0 <= axy[0] < f) and (0 <= axy[1]-1 < c) and (mapa[axy[0]][axy[1]-1] != self.simbolos[1]):	# O
 			movimientos[6] = [axy[0], axy[1]-1]
-		if (0 <= axy[0]-1 < f) and (0 <= axy[1]-1 < c) and \
-		(mapa[axy[0]-1][axy[1]-1] != self.simbolos[1]):	# NO
+		if (0 <= axy[0]-1 < f) and (0 <= axy[1]-1 < c) and (mapa[axy[0]-1][axy[1]-1] != self.simbolos[1]):	# NO
 			movimientos[7] = [axy[0]-1, axy[1]-1]
 		print movimientos
 		return movimientos
@@ -142,7 +134,7 @@ class Simulador:
 
 
 if __name__ == '__main__':
-	simulador = Simulador(27,18," ",".")
+	simulador = Simulador(47,45," ",".")
 	simulador.poblar_mapa()
 	contador = 0
 	while True:
@@ -154,5 +146,5 @@ if __name__ == '__main__':
 		if simulador.axy == simulador.mxy:
 			print "Meta alcanzada..."
 			break
-		time.sleep(1)
+		time.sleep(0.5)
 	print "Movimientos:", contador
